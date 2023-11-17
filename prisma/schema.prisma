@@ -9,3 +9,56 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+// 유저(User) 테이블
+model User {
+  userId    Int       @id @default(autoincrement()) @map("user_id")
+  username  String    
+  email     String    @unique
+  createdAt DateTime  @default(now())
+
+  comments  Comment[] // 유저가 작성한 댓글
+  boards    Board[]   @relation("UserBoards")
+  userBoards UserBoard[]  // User 모델에 UserBoard와의 관계 추가
+
+  @@map("tb_user")
+}
+
+// 게시판(Board) 테이블
+model Board {
+  boardId   Int       @id @default(autoincrement()) @map("board_id")
+  title     String
+  content   String
+  createdAt DateTime  @default(now())
+
+  comments  Comment[] // 게시판에 달린 댓글
+  users     User[]    @relation("UserBoards")
+  userBoards UserBoard[] // Board 모델에 UserBoard와의 관계 추가
+
+  @@map("tb_board")
+}
+
+// 중간 테이블(User_Board) - 유저와 게시판 간의 N:N 관계를 위해
+model UserBoard {
+  userId  Int
+  boardId Int
+  
+  user    User   @relation(fields: [userId], references: [userId])
+  board   Board  @relation(fields: [boardId], references: [boardId])
+
+  @@id([userId, boardId])
+  @@map("tb_user_board")
+}
+
+// 댓글(Comment) 테이블
+model Comment {
+  id        Int    @id @default(autoincrement())
+  text      String
+  userId    Int
+  boardId   Int
+  createdAt DateTime @default(now())
+  user    User   @relation(fields: [userId], references: [userId])
+  board   Board  @relation(fields: [boardId], references: [boardId])
+
+  @@map("tb_comment")
+}
