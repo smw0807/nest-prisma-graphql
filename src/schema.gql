@@ -1,0 +1,53 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type User {
+  """유저 아이디"""
+  id: Int!
+
+  """유저 이름"""
+  userName: String!
+
+  """유저 이메일"""
+  email: String!
+
+  """유저 셍성일"""
+  createdAt: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type UserInsert {
+  """유저 아이디"""
+  id: Int!
+
+  """유저 이름"""
+  userName: String!
+
+  """유저 이메일"""
+  email: String!
+
+  """유저 셍성일"""
+  createdAt: DateTime!
+}
+
+type Query {
+  findAllUser: User!
+}
+
+type Mutation {
+  """유저 생성"""
+  createUser(data: UserInsertDto!): UserInsert!
+}
+
+input UserInsertDto {
+  """유저 이름"""
+  userName: String!
+
+  """유저 이메일"""
+  email: String!
+}
