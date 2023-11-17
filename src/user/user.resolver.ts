@@ -2,7 +2,7 @@ import { Resolver, Mutation, Args, Query } from '@nestjs/graphql';
 import { UserService } from './user.service';
 import { UserInsertDto } from './dto/user.insert.dto';
 import { User } from './model/user.model';
-import { UserInsert } from './model/user.insert.model';
+import { CommonResponse } from '../common/common.response';
 
 @Resolver()
 export class UserResolver {
@@ -13,8 +13,10 @@ export class UserResolver {
     return this.userService.findAll();
   }
 
-  @Mutation(() => UserInsert, { description: '유저 생성' })
-  async createUser(@Args('data') userData: UserInsertDto) {
+  @Mutation(() => CommonResponse, { description: '유저 생성' })
+  async createUser(
+    @Args('data') userData: UserInsertDto,
+  ): Promise<CommonResponse> {
     return this.userService.createUser(userData);
   }
 }
