@@ -13,7 +13,7 @@ datasource db {
 // 유저(User) 테이블
 model User {
   userId    Int       @id @default(autoincrement()) @map("user_id")
-  username  String    
+  userName  String    @map("user_name")
   email     String    @unique
   createdAt DateTime  @default(now())
 
