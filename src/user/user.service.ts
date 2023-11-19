@@ -8,6 +8,12 @@ import { User } from './model/user.model';
 export class UserService {
   constructor(private prisma: PrismaService) {}
 
+  // 모든 유저 가져오기
+  async findAll(): Promise<User[]> {
+    return this.prisma.user.findMany();
+  }
+
+  // 유저 데이터 추가
   async createUser(data: UserInsertDto): Promise<CommonResponse> {
     let result: CommonResponse;
     try {
@@ -17,9 +23,5 @@ export class UserService {
       result = { success: false, data: null, message: err.message };
     }
     return result;
-  }
-
-  async findAll(): Promise<User[]> {
-    return this.prisma.user.findMany();
   }
 }
