@@ -58,7 +58,7 @@ type Query {
   findByUserId(id: UserFindById!): User
 
   """모든 게시물 가져오기"""
-  findAll: [Board!]!
+  findAllBoard: [Board!]!
 }
 
 """유저 아이디 정보 가져오기"""
