@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UserInsertDto } from './dto/user.insert.dto';
 import { CommonResponse } from '../common/common.response';
+import { User } from './model/user.model';
 
 @Injectable()
 export class UserService {
@@ -18,7 +19,7 @@ export class UserService {
     return result;
   }
 
-  async findAll() {
+  async findAll(): Promise<User[]> {
     return this.prisma.user.findMany();
   }
 }

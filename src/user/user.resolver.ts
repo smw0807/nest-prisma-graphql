@@ -8,7 +8,7 @@ import { CommonResponse } from '../common/common.response';
 export class UserResolver {
   constructor(private userService: UserService) {}
 
-  @Query(() => User)
+  @Query(() => [User], { description: '모든 유저정보 가져오기' })
   async findAllUser() {
     return this.userService.findAll();
   }
