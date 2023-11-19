@@ -13,6 +13,13 @@ export class UserService {
     return this.prisma.user.findMany();
   }
 
+  // 유저 1명 정보 가져오기
+  async findById(userId: number): Promise<User | null> {
+    return this.prisma.user.findUnique({
+      where: { userId },
+    });
+  }
+
   // 유저 데이터 추가
   async createUser(data: UserInsertDto): Promise<CommonResponse> {
     let result: CommonResponse;

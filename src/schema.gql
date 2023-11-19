@@ -35,6 +35,15 @@ scalar JSONObject @specifiedBy(url: "http://www.ecma-international.org/publicati
 type Query {
   """모든 유저정보 가져오기"""
   findAllUser: [User!]!
+
+  """유저 정보 가져오기"""
+  findByUserId(id: UserFindById!): User
+}
+
+"""유저 아이디 정보 가져오기"""
+input UserFindById {
+  """유저 아이디"""
+  userId: Float!
 }
 
 type Mutation {
