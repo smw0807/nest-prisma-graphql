@@ -62,3 +62,41 @@ model Comment {
 
   @@map("tb_comment")
 }
+
+model Inquiry {
+  id                          Int            @id @unique @default(autoincrement())
+  userId                      Int            @map("user_id")
+  type                        InquiryType?   @relation(name: "InquiryType", fields: [typeId], references: [id])
+  typeId                      Int?           @map("type_id")
+  additionalType              InquiryType?   @relation(name: "InquiryAdditionalType", fields: [additionalTypeId], references: [id])
+  additionalTypeId            Int?           @map("additional_type_id")
+  parentInquiry               Inquiry[]      @relation("ParentInquiry")
+  precedessorParentInquiry    Inquiry[]      @relation("ParentInquiry")
+  parentInquiryId             Int?           @map("parent_inquiry_id")
+  title                       String?
+  content                     String?        @db.LongText
+  isShow                      Boolean        @default(true) @map("is_show")
+  createdAt                   DateTime       @default(now()) @map("reg_dtime")
+  updatedAt                   DateTime       @default(now()) @updatedAt @map("upd_dtime") 
+  createBy                    String?        @map("create_by")
+
+  @@map(name: "tb_inquiry")
+}
+
+model InquiryType {
+  id                           Int           @id @unique @default(autoincrement())
+  name                         String
+  isActive                     Boolean       @default(true) @map("is_active")
+  createBy                     String?       @map("create_by")
+  updateBy                     String?       @map("update_by")
+  inquiryType                  Inquiry[]     @relation("InquiryType")
+  inquiryAdditionalType        Inquiry[]     @relation("InquiryAdditionalType")
+  parentInquiryType            InquiryType[] @relation("ParentInquiryType")
+  precedessorParentInquiryType InquiryType[] @relation("ParentInquiryType")
+  parentInquiryTypeId          Int?          @map("parent_inquiry_type_id")
+  
+  createdAt                    DateTime      @default(now()) @map("reg_dtime")
+  updatedAt                    DateTime      @default(now()) @updatedAt @map("upd_dtime") 
+
+  @@map(name: "tb_inquiry_type")
+}
