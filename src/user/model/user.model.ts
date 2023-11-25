@@ -1,16 +1,27 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { Comment } from 'src/comment/model/comment.model';
+import { Board, UserBoard } from 'src/board/model/board.model';
 
-@ObjectType()
+@ObjectType('User')
 export class User {
-  @Field(() => Int, { description: '유저 아이디' })
+  @Field((type) => Int)
   userId: number;
 
-  @Field({ description: '유저 이름' })
+  @Field()
   userName: string;
 
-  @Field({ description: '유저 이메일' })
+  @Field()
   email: string;
 
-  @Field({ description: '유저 셍성일' })
+  @Field()
   createdAt: Date;
+
+  @Field((type) => [Comment], { nullable: true })
+  comments?: Comment[];
+
+  @Field((type) => [Board], { nullable: true })
+  boards?: Board[];
+
+  @Field((type) => [UserBoard], { nullable: true })
+  userBoards?: UserBoard[];
 }

@@ -1,8 +1,10 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { Field, ObjectType, Int } from '@nestjs/graphql';
+import { Comment } from 'src/comment/model/comment.model';
+import { User } from 'src/user/model/user.model';
 
-@ObjectType({ description: '게시판' })
+@ObjectType('Board', { description: '게시판' })
 export class Board {
-  @Field(() => Int, { description: '게시판 아이디' })
+  @Field((type) => Int, { description: '게시글 아이디' })
   boardId: number;
 
   @Field({ description: '게시글 제목' })
@@ -14,16 +16,27 @@ export class Board {
   @Field({ description: '게시글 생성일' })
   createdAt: Date;
 
-  // 댓글??
+  @Field((type) => [Comment], { nullable: true })
+  comments?: Comment[];
 
-  // board와 userBoard 관계?
+  @Field((type) => [User], { nullable: true })
+  users?: User[];
+
+  @Field((type) => [UserBoard], { nullable: true })
+  userBoards?: UserBoard[];
 }
 
-@ObjectType({ description: '유저 게시판 관계형 테이블' })
+@ObjectType('UserBoard', { description: '사용자-게시글 관계 모델' })
 export class UserBoard {
-  @Field({ description: '게시판 아이디' })
-  boardid: number;
-
-  @Field({ description: '유저 아이디' })
+  @Field((type) => Int, { description: '사용자 아이디' })
   userId: number;
+
+  @Field((type) => Int, { description: '게시글 아이디' })
+  boardId: number;
+
+  @Field((type) => User)
+  user: User;
+
+  @Field((type) => Board)
+  board: Board;
 }
