@@ -7,6 +7,7 @@ import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { BoardModule } from './board/board.module';
 import { InquiryModule } from './inquiry/inquiry.module';
+import { CommentModule } from './comment/comment.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { InquiryModule } from './inquiry/inquiry.module';
     UserModule,
     BoardModule,
     InquiryModule,
+    CommentModule,
   ],
   controllers: [AppController],
   providers: [AppService],
