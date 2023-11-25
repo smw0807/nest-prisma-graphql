@@ -34,9 +34,9 @@ export class UserBoard {
   @Field((type) => Int, { description: '게시글 아이디' })
   boardId: number;
 
-  @Field((type) => User)
-  user: User;
+  @Field((type) => User, { nullable: true })
+  user?: User;
 
-  @Field((type) => Board)
-  board: Board;
+  @Field((type) => Board, { nullable: true })
+  board?: Board;
 }
