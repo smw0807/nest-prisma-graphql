@@ -1,7 +1,6 @@
 import { Resolver, Mutation, Args, Query } from '@nestjs/graphql';
 import { UserService } from './user.service';
 import { UserInsertDto } from './dto/user.insert.dto';
-import { UserFindById } from './dto/user.search.dto';
 import { User } from './model/user.model';
 import { CommonResponse } from '../common/common.response';
 
