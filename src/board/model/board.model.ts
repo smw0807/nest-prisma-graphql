@@ -14,7 +14,7 @@ export class Board {
   content: string;
 
   @Field({ description: '게시글 생성일' })
-  createdAt: Date;
+  createdAt?: Date;
 
   @Field((type) => [Comment], { nullable: true })
   comments?: Comment[];

@@ -14,7 +14,7 @@ export class User {
   email: string;
 
   @Field()
-  createdAt: Date;
+  createdAt?: Date;
 
   @Field((type) => [Comment], { nullable: true })
   comments?: Comment[];
