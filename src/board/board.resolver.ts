@@ -16,7 +16,8 @@ export class BoardResolver {
   @Mutation(() => CommonResponse, { description: '게시물 등록' })
   async createBoard(
     @Args('boardData') boardData: BoardInsertDto,
+    @Args('userId') id: number,
   ): Promise<CommonResponse> {
-    return this.boardService.createBoard(boardData, [1, 3, 4, 5]);
+    return this.boardService.createBoard(boardData, id);
   }
 }

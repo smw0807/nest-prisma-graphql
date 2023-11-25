@@ -16,7 +16,7 @@ export class BoardService {
   // 게시글 추가
   async createBoard(
     boardData: BoardInsertDto,
-    userIds: number[],
+    userId: number,
   ): Promise<CommonResponse> {
     let result: CommonResponse;
     try {
@@ -24,12 +24,11 @@ export class BoardService {
         data: {
           ...boardData,
           users: {
-            connect: userIds.map((userId) => ({ userId })),
+            connect: { userId },
           },
         },
       });
-      console.log('board : ', board);
-      await this.createUserBoard(board.boardId, 3);
+      // await this.createUserBoard(board.boardId, 3);
       result = { message: 'ok', data: board };
     } catch (err) {
       console.error(err);
