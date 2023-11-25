@@ -28,30 +28,11 @@ export class BoardService {
           },
         },
       });
-      // await this.createUserBoard(board.boardId, 3);
       result = { message: 'ok', data: board };
     } catch (err) {
       console.error(err);
       result = { success: false, message: err.mesage };
     }
     return result;
-  }
-
-  // board, user관계형 데이터 추가(userBOard에)
-  private async createUserBoard(
-    boardId: number,
-    userId: number,
-  ): Promise<void> {
-    try {
-      const userBoard = await this.prisma.userBoard.create({
-        data: {
-          boardId: boardId,
-          userId: userId,
-        },
-      });
-      console.log('userBoard : ', userBoard);
-    } catch (err) {
-      console.error(err);
-    }
   }
 }
