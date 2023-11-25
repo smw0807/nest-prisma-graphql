@@ -14,9 +14,13 @@ export class UserService {
   }
 
   // 유저 1명 정보 가져오기
-  async findById(userId: number): Promise<User | null> {
+  async findById(userId: number): Promise<User> {
     return this.prisma.user.findUnique({
       where: { userId },
+      include: {
+        boards: true, // => userId가 들어있는 모든 board 데이터 가져옴
+        comments: true, // =>  userID가 들어있는 모든 comment 데이터 가져옴
+      },
     });
   }
 
@@ -32,3 +36,24 @@ export class UserService {
     return result;
   }
 }
+
+//! findById
+/* 
+query findByUserId($user_id: Float!)
+{
+  findByUserId(id: $user_id) {
+    userId
+    userName
+    email
+    boards {
+      boardId
+      title
+    }
+    comments {
+      userId
+      boardId
+      text
+    }
+  }
+}
+*/

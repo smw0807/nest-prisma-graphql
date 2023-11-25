@@ -14,9 +14,14 @@ export class UserResolver {
     return this.userService.findAll();
   }
 
+  /**
+   * nullable: true 옵션을 주지 않았을 때
+   * 없는 id로 쿼리 요청시 에러 발생함
+   * 주면 없을 때 null 반환
+   */
   @Query(() => User, { nullable: true, description: '유저 정보 가져오기' })
-  async findByUserId(@Args('id') id: UserFindById): Promise<User | null> {
-    return this.userService.findById(id.userId);
+  async findByUserId(@Args('id') id: number): Promise<User> {
+    return this.userService.findById(id);
   }
 
   @Mutation(() => CommonResponse, { description: '유저 생성' })
