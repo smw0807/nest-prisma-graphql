@@ -13,6 +13,16 @@ export class BoardService {
     return this.prisma.board.findMany();
   }
 
+  // 사용자 아이디로 게시글 조회
+  async findByUserId(userId: number) {
+    return this.prisma.userBoard.findMany({
+      where: { userId: userId },
+      include: {
+        board: true,
+      },
+    });
+  }
+
   // 게시글 추가
   async createBoard(
     boardData: BoardInsertDto,
