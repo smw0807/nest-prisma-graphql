@@ -14,7 +14,7 @@ export class CommentResolver {
   }
 
   @Query(() => Comment)
-  async findByUserId(@Args('userId') userId: number): Promise<Comment> {
+  async findByCommentUserId(@Args('userId') userId: number): Promise<Comment> {
     return this.commentService.findByUserId(userId);
   }
 
