@@ -4,10 +4,6 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UserModule } from './user/user.module';
-import { BoardModule } from './board/board.module';
-import { InquiryModule } from './inquiry/inquiry.module';
-import { CommentModule } from './comment/comment.module';
 
 @Module({
   imports: [
@@ -15,10 +11,6 @@ import { CommentModule } from './comment/comment.module';
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
     }),
-    UserModule,
-    BoardModule,
-    InquiryModule,
-    CommentModule,
   ],
   controllers: [AppController],
   providers: [AppService],
