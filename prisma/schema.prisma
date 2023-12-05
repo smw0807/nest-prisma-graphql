@@ -10,93 +10,23 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// 유저(User) 테이블
 model User {
-  userId    Int       @id @default(autoincrement()) @map("user_id")
-  userName  String    @map("user_name")
-  email     String    @unique
-  createdAt DateTime  @default(now())
-
-  comments  Comment[] // 유저가 작성한 댓글
-  boards    Board[]   @relation("UserBoards")
-  userBoards UserBoard[]  // User 모델에 UserBoard와의 관계 추가
+  id    Int     @default(autoincrement()) @id
+  email String  @unique
+  name  String?
+  
+  posts Post[]
 
   @@map("tb_user")
 }
 
-// 게시판(Board) 테이블
-model Board {
-  boardId   Int       @id @default(autoincrement()) @map("board_id")
+model Post {
+  id        Int      @default(autoincrement()) @id
   title     String
-  content   String
-  createdAt DateTime  @default(now())
+  content   String?
+  published Boolean? @default(false)
+  author    User?    @relation(fields: [authorId], references: [id])
+  authorId  Int?
 
-  comments  Comment[] // 게시판에 달린 댓글
-  users     User[]    @relation("UserBoards")
-  userBoards UserBoard[] // Board 모델에 UserBoard와의 관계 추가
-
-  @@map("tb_board")
-}
-
-// 중간 테이블(User_Board) - 유저와 게시판 간의 N:N 관계를 위해
-model UserBoard {
-  userId  Int
-  boardId Int
-  
-  user    User   @relation(fields: [userId], references: [userId])
-  board   Board  @relation(fields: [boardId], references: [boardId])
-
-  @@id([userId, boardId])
-  @@map("tb_user_board")
-}
-
-// 댓글(Comment) 테이블
-model Comment {
-  id        Int    @id @default(autoincrement())
-  text      String
-  userId    Int
-  boardId   Int
-  createdAt DateTime @default(now())
-  user    User   @relation(fields: [userId], references: [userId])
-  board   Board  @relation(fields: [boardId], references: [boardId])
-
-  @@map("tb_comment")
-}
-
-model Inquiry {
-  id                          Int            @id @unique @default(autoincrement())
-  userId                      Int            @map("user_id")
-  type                        InquiryType?   @relation(name: "InquiryType", fields: [typeId], references: [id])
-  typeId                      Int?           @map("type_id")
-  additionalType              InquiryType?   @relation(name: "InquiryAdditionalType", fields: [additionalTypeId], references: [id])
-  additionalTypeId            Int?           @map("additional_type_id")
-  parentInquiry               Inquiry[]      @relation("ParentInquiry")
-  precedessorParentInquiry    Inquiry[]      @relation("ParentInquiry")
-  parentInquiryId             Int?           @map("parent_inquiry_id")
-  title                       String?
-  content                     String?        @db.LongText
-  isShow                      Boolean        @default(true) @map("is_show")
-  createdAt                   DateTime       @default(now()) @map("reg_dtime")
-  updatedAt                   DateTime       @default(now()) @updatedAt @map("upd_dtime") 
-  createBy                    String?        @map("create_by")
-
-  @@map(name: "tb_inquiry")
-}
-
-model InquiryType {
-  id                           Int           @id @unique @default(autoincrement())
-  name                         String
-  isActive                     Boolean       @default(true) @map("is_active")
-  createBy                     String?       @map("create_by")
-  updateBy                     String?       @map("update_by")
-  inquiryType                  Inquiry[]     @relation("InquiryType")
-  inquiryAdditionalType        Inquiry[]     @relation("InquiryAdditionalType")
-  parentInquiryType            InquiryType[] @relation("ParentInquiryType")
-  precedessorParentInquiryType InquiryType[] @relation("ParentInquiryType")
-  parentInquiryTypeId          Int?          @map("parent_inquiry_type_id")
-  
-  createdAt                    DateTime      @default(now()) @map("reg_dtime")
-  updatedAt                    DateTime      @default(now()) @updatedAt @map("upd_dtime") 
-
-  @@map(name: "tb_inquiry_type")
+  @@map("tb_post")
 }
