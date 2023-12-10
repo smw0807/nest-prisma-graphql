@@ -1,4 +1,4 @@
-import { Injectable, LogLevel, LoggerService } from '@nestjs/common';
+import { Injectable, LoggerService } from '@nestjs/common';
 import { Logger } from 'winston';
 import { utilities as nestWinstonModuleUtilities } from 'nest-winston';
 import * as winston from 'winston';
