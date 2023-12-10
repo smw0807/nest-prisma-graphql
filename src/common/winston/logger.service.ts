@@ -1,4 +1,4 @@
-import { Injectable, LoggerService } from '@nestjs/common';
+import { Injectable, LogLevel, LoggerService } from '@nestjs/common';
 import { Logger } from 'winston';
 import { utilities as nestWinstonModuleUtilities } from 'nest-winston';
 import * as winston from 'winston';
@@ -7,7 +7,7 @@ import * as winston from 'winston';
 export class MyLoggerService implements LoggerService {
   private logger: Logger;
 
-  constructor() {
+  constructor(className: string) {
     this.logger = winston.createLogger({
       level: 'debug',
       // Winston 설정
@@ -16,8 +16,7 @@ export class MyLoggerService implements LoggerService {
           format: winston.format.combine(
             winston.format.timestamp(),
             winston.format.ms(),
-            nestWinstonModuleUtilities.format.nestLike('MyNest', {
-              //todo class 이름 받을 수 있게
+            nestWinstonModuleUtilities.format.nestLike(className, {
               colors: true,
               prettyPrint: true,
             }),
@@ -27,24 +26,19 @@ export class MyLoggerService implements LoggerService {
       ],
     });
   }
-
-  log(message: any) {
-    this.logger.info(message);
+  log(message: any, ...optionalParams: any[]) {
+    this.logger.info(message, ...optionalParams);
   }
-
-  error(message: any, trace: string) {
-    this.logger.error(message, { trace });
+  error(message: any, trace: string, ...optionalParams: any[]) {
+    this.logger.error(message, { trace }, ...optionalParams);
   }
-
-  warn(message: any) {
-    this.logger.warn(message);
+  warn(message: any, ...optionalParams: any[]) {
+    this.logger.warn(message, ...optionalParams);
   }
-
-  debug(message: any) {
-    this.logger.debug(message);
+  debug?(message: any, ...optionalParams: any[]) {
+    this.logger.debug(message, ...optionalParams);
   }
-
-  verbose(message: any) {
-    this.logger.verbose(message);
+  verbose?(message: any, ...optionalParams: any[]) {
+    this.logger.verbose(message, ...optionalParams);
   }
 }

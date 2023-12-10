@@ -5,17 +5,16 @@ import { MyLoggerService } from 'src/common/winston/logger.service';
 
 @Resolver()
 export class UserResolver {
-  constructor(
-    private readonly userService: UserService,
-    private readonly logger: MyLoggerService,
-  ) {}
+  private readonly logger: MyLoggerService = new MyLoggerService(
+    UserResolver.name,
+  );
+  constructor(private readonly userService: UserService) {}
 
   @Query(() => [User])
   async findAllUser(): Promise<User[]> {
     try {
       const result = await this.userService.findAllUser();
-      this.logger.debug('result');
-      this.logger.log(result);
+      this.logger.debug(result);
       return result;
     } catch (err) {
       console.error(err);
