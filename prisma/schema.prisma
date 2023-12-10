@@ -23,7 +23,7 @@ model User {
   email        String           @unique
   profileViews Int              @default(0)
   role         Role             @default(USER)
-  coinflips    Boolean
+  coinflips    Boolean?
   posts        Post[]
   profile      ExtendedProfile?
 }
