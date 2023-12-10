@@ -2,6 +2,7 @@ import { Injectable, LogLevel, LoggerService } from '@nestjs/common';
 import { Logger } from 'winston';
 import { utilities as nestWinstonModuleUtilities } from 'nest-winston';
 import * as winston from 'winston';
+import * as util from 'util';
 
 @Injectable()
 export class MyLoggerService implements LoggerService {
@@ -26,19 +27,25 @@ export class MyLoggerService implements LoggerService {
       ],
     });
   }
-  log(message: any, ...optionalParams: any[]) {
-    this.logger.info(message, ...optionalParams);
+  private formatMessage(message: any): string {
+    return typeof message === 'object'
+      ? util.inspect(message, { depth: 5 })
+      : message;
   }
-  error(message: any, trace: string, ...optionalParams: any[]) {
-    this.logger.error(message, { trace }, ...optionalParams);
+
+  log(message: any) {
+    this.logger.info(this.formatMessage(message));
   }
-  warn(message: any, ...optionalParams: any[]) {
-    this.logger.warn(message, ...optionalParams);
+  error(message: any, trace: string) {
+    this.logger.error(this.formatMessage(message), { trace });
   }
-  debug?(message: any, ...optionalParams: any[]) {
-    this.logger.debug(message, ...optionalParams);
+  warn(message: any) {
+    this.logger.warn(this.formatMessage(message));
   }
-  verbose?(message: any, ...optionalParams: any[]) {
-    this.logger.verbose(message, ...optionalParams);
+  debug?(message: any) {
+    this.logger.debug(this.formatMessage(message));
+  }
+  verbose?(message: any) {
+    this.logger.verbose(this.formatMessage(message));
   }
 }
