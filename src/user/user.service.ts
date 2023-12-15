@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { User } from '@prisma/client';
 import { PrismaService } from 'src/common/prisma/prisma.service';
-import { UserCreateInput } from './inputs/user.input';
+import { UserCreateInput, UserCreateManyInput } from './inputs/user.input';
 import { MyLoggerService } from 'src/common/winston/logger.service';
 
 @Injectable()
@@ -22,5 +22,16 @@ export class UserService {
     return this.prisma.user.create({
       data: data,
     });
+  }
+
+  //사용자 여러명 등록
+  async createManyUser(data: UserCreateManyInput) {
+    this.logger.log(data);
+    // const create = await this.prisma.user.createMany({
+    //   data: [
+
+    //   ],
+    // });
+    // this.logger.debug(create);
   }
 }
